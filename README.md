@@ -18,9 +18,10 @@ src
 │   │   ├── button/
 │   │   │  ├──Button.tsx
 │   │   │  ├──Button.module.css
+|   |   ├── stopwatch/
 │   │   ├── Stopwatch.module.css
 │   │   ├── Stopwatch.tsx
-│   ├── constants/
+│   ├── types/
 │   │   ├── types.ts
 │── App.tsx
 │── main.tsx

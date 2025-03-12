@@ -1,31 +1,20 @@
 import { useState } from 'react';
 import './index.css'
-import Stopwatch from './components/Stopwatch';
-import { StopwatchType } from './constants/types';
+import { IStopwatch } from './types/types';
+import Stopwatch from './components/stopwatch/Stopwatch';
+import Button from './components/ui/button/Button';
 
 
 function App() {
-  const [stopWatches, setStopWatches] = useState<StopwatchType[]>([]);
+  const [stopWatches, setStopWatches] = useState<IStopwatch[]>([]);
 
-  const addStopwatch = () => {
-    setStopWatches(
-      [
-        ...stopWatches,
-        { id: Date.now(), time: 0, running: false }
-      ]
-    );
-  };
+  const addStopwatch = () => setStopWatches([...stopWatches, { id: Date.now(), time: 0, running: false }]);
+  const removeStopwatch = (id: number) => setStopWatches(stopWatches.filter((sw) => sw.id !== id));
 
-  const removeStopwatch = (id: number) => {
-    setStopWatches(stopWatches.filter((sw) => sw.id !== id));
-  };
 
   return (
     <main>
-
-      <button onClick={addStopwatch} className="btn">
-        Add Stopwatch
-      </button>
+      <Button onClick={addStopwatch} className="btn" label="Add Stopwatch" />
       <div className="stopwatchDiv">
         {stopWatches.map((sw) => (
           <Stopwatch
@@ -35,7 +24,6 @@ function App() {
           />
         ))}
       </div>
-
     </main>
   )
 }

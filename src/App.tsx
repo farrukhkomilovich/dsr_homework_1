@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './index.css'
 import { IStopwatch } from './types/types';
 import Stopwatch from './components/stopwatch/Stopwatch';
 import Button from './components/ui/button/Button';
@@ -14,7 +13,7 @@ function App() {
 
   return (
     <main>
-      <Button onClick={addStopwatch} className="btn" label="Add Stopwatch" />
+      <Button onClick={addStopwatch} label="Add Stopwatch" />
       <div className="stopwatchDiv">
         {stopWatches.map((sw) => (
           <Stopwatch

@@ -1,17 +1,29 @@
-import styles from "./Button.module.css";
+import styled from "styled-components";
+import { IButtonProps } from "../../../types/types";
 
-interface ButtonProps {
-  onClick: () => void;
-  children?: React.ReactNode;
-  label?: string;
-  className?: string;
-}
 
-const Button = ({ onClick, children, className = "", label = "" }: ButtonProps) => {
+const ButtonStyled = styled.button<{ variant?: string }>`
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  color: ${({ variant }) => (variant === "stop" ? "black" : "white")};
+  background-color: ${({ variant }) =>
+    variant === "start" ? "green" :
+      variant === "stop" ? "yellow" :
+        variant === "reload" ? "blue" :
+          variant === "remove" ? "orange" :
+            "blue"};
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
+const Button = ({ onClick, children, label = "", variant }: IButtonProps) => {
   return (
-    <button onClick={onClick} className={`${styles.btn} ${className}`}>
+    <ButtonStyled onClick={onClick} variant={variant}>
       {label ?? children}
-    </button>
+    </ButtonStyled>
   );
 };
 

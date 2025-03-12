@@ -1,7 +1,28 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "./Stopwatch.module.css";
+import styled from "styled-components";
 import { IStopwatchProps } from "../../types/types";
 import Button from "../ui/button/Button";
+
+const StopwatchBox = styled.div`
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  justify-content: space-between;
+`;
+
+const TimeDisplay = styled.span`
+  font-size: 18px;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+`;
 
 const Stopwatch = ({ sw, remove }: IStopwatchProps) => {
   const [time, setTime] = useState<number>(sw.time);
@@ -28,30 +49,18 @@ const Stopwatch = ({ sw, remove }: IStopwatchProps) => {
   }, [running]);
 
   return (
-    <div className={styles.box}>
-      <span className={styles.time}> {time}s </span>
-      <div className={styles.btns}>
-
+    <StopwatchBox>
+      <TimeDisplay> {time}s </TimeDisplay>
+      <ButtonGroup>
         <Button
           onClick={() => setRunning((prev) => !prev)}
-          className={!running ? styles.startBtn : styles.stopBtn}
+          variant={!running ? "start" : "stop"}
           label={!running ? "▶️" : "⏸️"}
         />
-
-        <Button
-          onClick={() => setTime(0)}
-          className={styles.reloadBtn}
-          label="🔄"
-        />
-
-        <Button
-          onClick={() => remove(sw.id)}
-          className={styles.removeBtn}
-          label="❌"
-        />
-
-      </div>
-    </div >
+        <Button onClick={() => setTime(0)} variant="reload" label="🔄" />
+        <Button onClick={() => remove(sw.id)} variant="remove" label="❌" />
+      </ButtonGroup>
+    </StopwatchBox>
   )
 }
 

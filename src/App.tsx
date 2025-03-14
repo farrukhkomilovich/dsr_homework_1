@@ -1,7 +1,12 @@
 import { useState } from 'react';
-import { IStopwatch } from './types/types';
-import Stopwatch from './components/stopwatch/Stopwatch';
 import Button from './components/ui/button/Button';
+import Stopwatch from './components/stopwatch/Stopwatch';
+
+export interface IStopwatch {
+  id: number;
+  time: number;
+  running: boolean;
+}
 
 
 function App() {

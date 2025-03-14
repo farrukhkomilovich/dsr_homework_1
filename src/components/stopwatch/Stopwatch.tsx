@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { IStopwatchProps } from "../../types/types";
 import Button from "../ui/button/Button";
+import { IStopwatch } from "../../App";
+
+export interface IStopwatchProps {
+  sw: IStopwatch;
+  remove: (id: number) => void;
+}
 
 const StopwatchBox = styled.div`
   border: 1px solid #ccc;
@@ -14,11 +19,11 @@ const StopwatchBox = styled.div`
   justify-content: space-between;
 `;
 
-const TimeDisplay = styled.span`
+const StopwatchTime = styled.span`
   font-size: 18px;
 `;
 
-const ButtonGroup = styled.div`
+const StopwatchButtons = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
@@ -28,7 +33,7 @@ const Stopwatch = ({ sw, remove }: IStopwatchProps) => {
   const [time, setTime] = useState<number>(sw.time);
   const [running, setRunning] = useState<boolean>(sw.running);
 
-  const intervalRef = useRef<number>(0);
+  const intervalRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (running) {
@@ -38,30 +43,32 @@ const Stopwatch = ({ sw, remove }: IStopwatchProps) => {
     } else {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     }
 
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
   }, [running]);
 
   return (
-    <StopwatchBox>
-      <TimeDisplay> {time}s </TimeDisplay>
-      <ButtonGroup>
-        <Button
-          onClick={() => setRunning((prev) => !prev)}
-          variant={!running ? "start" : "stop"}
-          label={!running ? "▶️" : "⏸️"}
+    <StopwatchBox className="stopwatch">
+      <StopwatchTime className="stopwatch__time">{time}s</StopwatchTime>
+      <StopwatchButtons className="stopwatch__buttons">
+        <Button 
+          onClick={() => setRunning((prev) => !prev)} 
+          variant={!running ? "start" : "stop"} 
+          label={!running ? "▶️" : "⏸️"} 
         />
         <Button onClick={() => setTime(0)} variant="reload" label="🔄" />
         <Button onClick={() => remove(sw.id)} variant="remove" label="❌" />
-      </ButtonGroup>
+      </StopwatchButtons>
     </StopwatchBox>
-  )
-}
+  );
+};
 
-export default Stopwatch
+export default Stopwatch;
